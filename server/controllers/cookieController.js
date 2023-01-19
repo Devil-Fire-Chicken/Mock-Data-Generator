@@ -12,6 +12,7 @@ cookieController.setSSIDCookie = (req, res, next) => {
 // verify ssid cookie
 cookieController.verifySSIDCookie = (req, res, next) => {
   const { ssid } = req.cookies;
+  if (!ssid) return next();
   User.findOne({ _id: ssid })
     .then(() => {
       return next();
