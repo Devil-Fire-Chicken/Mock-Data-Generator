@@ -47,6 +47,65 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+/* ----------------------POPUP----------------- */
+
+.popup {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  height: 40%;
+  width: 40%;
+  background-color: #679186;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  /* display: none; */
+}
+
+.popup>p {
+  height: 16px;
+}
+
+.loginForm {
+  margin: 20px;
+  width: 60%;
+}
+
+.loginLabel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginFormBtns {
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+  margin-top: 10px;
+}
+
+.loginFormBtns button {
+  font-size: 1.1rem;
+  display: flex;
+  width: auto;
+  padding: auto;
+}
+
+.popUpBtn {
+  position: absolute;
+  width: auto;
+  top:6%;
+  left: calc(75% - 46px);
+}
+
+.loginBtn {
+  background-color: rgb(62, 204, 252);
+}
+
+.logOutBtn {
+  background-color: rgb(253, 71, 71);
+}
 
 /* ----------------------CONTAINERS----------------- */
 
@@ -105,7 +164,7 @@ footer{
   display: flex;
   flex-direction: column;
   width: 50%;
-  height:60% 
+  height:70% 
 }
 
 /*------------------ FORMS ----------------- */
@@ -137,9 +196,14 @@ footer{
   
 }
 #text_box_and_copy{
-  height: 80%;
+  height: 80%; 
   position: relative;
+  padding-top : 10em
 }
+/* height: 80%;   change to 60% */
+
+/*add padding-top : 10em*/
+
 #text_output{
   width:100%;
   height:100%;
@@ -184,12 +248,14 @@ a:hover{
   display: flex;
   justify-content: space-between;
   padding-bottom: 1rem;
+  margin-top: 20px;
 }
 
 #add_button, #submit_button{
   width: 10rem;
-  height: 2rem;
+  height: 2rem
 }
+
 button{
   width: 1.5rem;
   height: 1.5rem;
@@ -199,7 +265,8 @@ button{
   color: rgb(60, 60, 60);
 }
 button:hover{
-  background-color:#679186
+  /* background-color:#679186 */
+  filter: brightness(80%);
 }
 button:active{
   color: black;
@@ -208,11 +275,12 @@ button:active{
 
 #copy{
   position: absolute;
-  z-index: 10000;
-  top: 5px;
+  z-index: 10;
+  top: 13em;
   right:0px;
   width: 2rem;
   height: 2rem;
+  /* padding-top: 10em */
 }
 
 
@@ -231,10 +299,48 @@ button:active{
   transform: scale(1.2);
 }
 
+.type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 15px;
+  grid-row-gap: 15px
+}
+
+/* #type-button {
+  width: 100%;
+  height: 3rem;
+  font-weight: bold;
+  font-size: 95%;
+} */
+
+#add_to_favorites{
+  width: 7rem;
+  height: 3rem;
+}
+#submit_favorites{
+  width: 7rem;
+  height: 3rem;
+}
+#clear_selection{
+  width: 7rem;
+  height: 3rem;
+}
 
 
+.type-button {
+  width: 100%;
+  height: 3rem;
+  font-weight: bold;
+  font-size: 95%;
+}
 
-
+#clicked {
+  background-color: rgb(168, 190, 247);
+  width: 100%;
+  height: 3rem;
+  font-weight: bold;
+  font-size: 95%;
+}
 
 
 
