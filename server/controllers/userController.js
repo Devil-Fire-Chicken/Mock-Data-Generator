@@ -102,7 +102,7 @@ userController.updateDataTypes = async (req, res, next) => {
 userController.sendStarredDataTypes = async (req, res, next) => {
   try {
     // pull the id from cookie
-    const { ssid } = req.cookies;
+    const ssid  = res.locals.id || req.cookies.ssid;
     // find user with that id
     if (!ssid) {
       res.locals.starredDataTypes = null;
