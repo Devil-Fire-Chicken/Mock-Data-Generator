@@ -55,6 +55,7 @@ table {
   left: 30%;
   height: 40%;
   width: 40%;
+  border-radius: 5px; /* ADDED */
   background-color: #679186;
   display: flex;
   flex-direction: column;
@@ -100,6 +101,8 @@ table {
 }
 
 .loginBtn {
+  height: 2rem;
+  
   background-color: rgb(62, 204, 252);
 }
 
@@ -138,7 +141,7 @@ body, #root{
   display: flex;
   background-color: #679186;
   width:100vw;
-  height: 5%;
+  height: 5%; /* ADDED 5% */
   justify-content: center;
   align-items: center;
   color: white;
@@ -279,7 +282,7 @@ button:active{
 #copy{
   position: absolute;
   z-index: 10;
-  top: 13em;
+  top: 7em;
   right:0px;
   width: 2rem;
   height: 2rem;
