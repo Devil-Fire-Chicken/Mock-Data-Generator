@@ -33,7 +33,6 @@ const loginPage = (props) => {
     }
   })
 
-
   return (
     <div className="popup">
       <h1>Login</h1>

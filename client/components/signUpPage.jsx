@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const signUpPage = (props) => {
   const [message, setNewMessage] = useState('');
-  const [messageChanged, setMessageStatus] = useState(false);
+  const [messageChanged, setMessageStatus] = useState(0);
   const username = useRef();
   const password = useRef();
   const passwordR = useRef();
@@ -14,29 +14,36 @@ const signUpPage = (props) => {
 
     if (password.current !== passwordR.current) {
       console.log('password doesn\'t match');
-      setMessageStatus(true);
+      setMessageStatus(1);
       return;
     }
 
     const signUp = async () => {
-      return await axios.post('/user/signup', { username: username.current, password: password.current })
+      try {
+        await axios.post('/user/signup', { username: username.current, password: password.current })
+        props.loggedIn();
+      } catch (error) {
+        setMessageStatus(2);
+      }
     }
-    try {
-      signUp();
-      props.loggedIn();
-    } catch (error) {
-      console.log(error);
-    }
+    signUp();
   }
 
   useEffect(() => {
-    if (messageChanged) {
+    if (messageChanged === 1) {
       setNewMessage('Passwords doesn\'t match');
-      setMessageStatus(false);
+      setMessageStatus(0);
+      setTimeout(() => {
+        setNewMessage('');
+      }, 3000);
+    } else if (messageChanged === 2) {
+      setNewMessage('username already existed');
+      setMessageStatus(0);
       setTimeout(() => {
         setNewMessage('');
       }, 3000);
     }
+
   })
 
   return (

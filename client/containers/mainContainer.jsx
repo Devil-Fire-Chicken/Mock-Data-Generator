@@ -30,6 +30,7 @@ const MainContainer = () => {
   const textAreaInput = useRef()
   const [clicked, setClicked] = useState(false)
   const [displayedDate, setDisplay] = useState();
+  const [receivedData, setReceivedData] = useState();
   
 
   // function handleAdd(event) {
@@ -204,7 +205,8 @@ const MainContainer = () => {
     return;
   }
 
-  function handleSelectFromFavorites(){
+  function handleSelectFromFavorites(array){
+    console.log(array)
     convertStringsForFE(favorites)
     console.log(favorites)
 
@@ -213,8 +215,8 @@ const MainContainer = () => {
 
     //assume favorites prop already has strings of favorites ready for the front-end
     clearSelection();
-    console.log("dataTypes after attempting to clear:")
-    console.log(dataTypes)
+    // console.log("dataTypes after attempting to clear:")
+    // console.log(dataTypes)
 
     // iterate through favorites array, changing the matching dataTypes values to true
     const obj = {};
@@ -245,7 +247,7 @@ const MainContainer = () => {
 
         console.log("res.data", response.data);
 
-        const data = response.data.reduce((acc, cur) => {
+        const responseModified = response.data.reduce((acc, cur) => {
           let ele = {};
           for (const prop in cur) {
             let temp = {};
@@ -261,15 +263,16 @@ const MainContainer = () => {
           if (JSON.stringify(ele) !== "{}") acc.push(ele);
           return acc
         },[]);
-
-        console.log("modified data", data);
+        
+        console.log("modified data", responseModified);
+        setReceivedData(responseModified);
 
         switch (displayType.current.value) {
           case 'JSON':
-            setDisplay(JSON.stringify(data, undefined, 2))
+            setDisplay(JSON.stringify(responseModified, undefined, 2))
             break;
           case 'CSV':
-            setDisplay("doesn't work yet")
+            setDisplay(changeToCSV(responseModified))
             break;
         }
         // textAreaInput.current.value = response.data;
@@ -301,24 +304,46 @@ const MainContainer = () => {
         });
       }
   }
+  
+  function setDataTypesFromFavorites(array) {
+    values = convertStringsForFE(array);
+    console.log("inside setDataTypesFromFavorites")
+    console.log(values);
+    const obj = {};
+    for(let i = 0; i < values.length; i++){
+      obj[values[i]] = true;
+    }
+    setDataTypes({
+      ...dataTypes, 
+      ...obj // 
+    });
+  }
 
   function selectDisplayType() {
     console.log(textAreaInput.current.value);
     switch (displayType.current.value) {
       case 'JSON':
-        setDisplay(displayedDate)
+        setDisplay(JSON.stringify(receivedData, undefined, 2))
         break;
       case 'CSV':
-        setDisplay("doesn't work yet")
+        setDisplay(changeToCSV(receivedData))
         break;
     }
   }
 
+  function changeToCSV(data) {
+    if (!data || data.length === 0) return 
+    const firstline = Object.keys(data[0]).join(', ').concat('\n');
+    return data.reduce((acc, cur) => {
+       return acc.concat(Object.values(cur).join(', ').concat('\n'))
+    }, firstline)
+  }
 
+ 
   return (
     <div id="main_container">
       
-      <Login favorites={favorites} />
+      <Login  />
       
       
       {/* <div id="datatype_selector">

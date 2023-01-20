@@ -35,7 +35,7 @@ const Login = (props) => {
     inputs.forEach((input) => {
       input.value = '';
     })
-    setPopUp(<LoginPage {...{ closeLogin, openSignUp, loggedIn }} />);
+    setPopUp(<LoginPage {...{ closeLogin, openSignUp, loggedIn, }} />);
   }
   
   function openSignUp() {
@@ -43,7 +43,7 @@ const Login = (props) => {
     inputs.forEach((input) => {
       input.value = '';
     })
-    setPopUp(<SignUpPage favorites = {props.Login}{...{ openLogin, loggedIn }} />);
+    setPopUp(<SignUpPage {...{ openLogin, loggedIn }} />);
   }
   
   function logOut() {
@@ -63,13 +63,14 @@ const Login = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try{
+        const response = await axios.get('/user');
         if (response.data === null) {
           setPopUp(loginBtn);
         } else {
           setPopUp(logOutBtn);
         }
       } catch (err) {
-        setPopUp(loginBtn);
+        console.log(err)
       }
     }
     fetchData();
