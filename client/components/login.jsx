@@ -43,7 +43,7 @@ const Login = (props) => {
     inputs.forEach((input) => {
       input.value = '';
     })
-    setPopUp(<SignUpPage {...{ openLogin, loggedIn }} />);
+    setPopUp(<SignUpPage favorites = {props.Login}{...{ openLogin, loggedIn }} />);
   }
   
   function logOut() {
@@ -63,8 +63,11 @@ const Login = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try{
-        const data = await axios.get('/user');
-        setPopUp(logOutBtn);
+        if (response.data === null) {
+          setPopUp(loginBtn);
+        } else {
+          setPopUp(logOutBtn);
+        }
       } catch (err) {
         setPopUp(loginBtn);
       }

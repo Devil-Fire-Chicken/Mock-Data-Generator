@@ -23,7 +23,7 @@ router.post(
 );
 
 router.patch("/updateTypes", userController.updateDataTypes, (req, res) => {
-  return res.status(200).json(res.locals.types);
+  return res.status(200).json(res.locals.starredDataTypes); 
 });
 
 router.get("/logout", cookieController.logoutCookie, (req, res) => {

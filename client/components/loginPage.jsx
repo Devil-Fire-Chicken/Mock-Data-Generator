@@ -15,6 +15,7 @@ const loginPage = (props) => {
       try {
         const response = await axios.post('/user/login', { username: username.current, password: password.current })
         props.loggedIn();
+        console.log(response.data)
       } catch (err) {
         setMessageStatus(true);
       }

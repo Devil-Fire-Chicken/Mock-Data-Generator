@@ -75,13 +75,17 @@ userController.verifyUser = async (req, res, next) => {
 userController.updateDataTypes = async (req, res, next) => {
   try {
     const id = req.cookies.ssid;
+    if (!id) {
+      res.locals.starredDataTypes = null;
+      return next();
+    }
     const { dataTypes } = req.body;
     console.log(id, dataTypes);
     const filter = { _id: id };
     const update = { starredDataTypes: dataTypes };
     User.findOneAndUpdate(filter, update, { new: true }).then((data) => {
       // console.log(data);
-      res.locals.types = data.starredDataTypes;
+      res.locals.starredDataTypes = data.starredDataTypes;
       return next();
     });
   } catch (err) {
@@ -100,6 +104,10 @@ userController.sendStarredDataTypes = async (req, res, next) => {
     // pull the id from cookie
     const { ssid } = req.cookies;
     // find user with that id
+    if (!ssid) {
+      res.locals.starredDataTypes = null;
+      return next();
+    }
     User.findOne({ _id: ssid }).then((user) => {
       res.locals.starredDataTypes = user.starredDataTypes;
       return next();

@@ -78,7 +78,7 @@ const MainContainer = () => {
   // }
 
   function handleCopy(event) {
-    navigator.clipboard.writeText(textAreaInput.current.value)
+    navigator.clipboard.writeText(displayedDate)
   }
  
   function handleSaveFavorites(){
@@ -243,12 +243,30 @@ const MainContainer = () => {
         const response = await axios.post('/api', {dataTypes: TypesForBody, quantity: quantity});
         console.log('inside sendTypes()');
 
+        console.log("res.data", response.data);
+
+        const data = response.data.reduce((acc, cur) => {
+          let ele = {};
+          for (const prop in cur) {
+            let temp = {};
+            if (prop === 'address') {
+              temp = Object.assign(cur[prop]);
+              delete temp['id'];
+              ele = Object.assign(ele, temp)
+            } else {
+              temp[prop] = cur[prop]
+              ele = Object.assign(ele, temp)
+            }
+          }
+          if (JSON.stringify(ele) !== "{}") acc.push(ele);
+          return acc
+        },[]);
+
+        console.log("modified data", data);
+
         switch (displayType.current.value) {
-          case 'Javascript':
-            setDisplay(JSON.stringify(response.data))
-            break;
           case 'JSON':
-            setDisplay(JSON.stringify(response.data))
+            setDisplay(JSON.stringify(data, undefined, 2))
             break;
           case 'CSV':
             setDisplay("doesn't work yet")
@@ -287,11 +305,8 @@ const MainContainer = () => {
   function selectDisplayType() {
     console.log(textAreaInput.current.value);
     switch (displayType.current.value) {
-      case 'Javascript':
-        setDisplay(JSON.stringify(displayedDate))
-        break;
       case 'JSON':
-        setDisplay(JSON.stringify(JSON.parse(displayedDate)))
+        setDisplay(displayedDate)
         break;
       case 'CSV':
         setDisplay("doesn't work yet")
@@ -303,7 +318,7 @@ const MainContainer = () => {
   return (
     <div id="main_container">
       
-      <Login />
+      <Login favorites={favorites} />
       
       
       {/* <div id="datatype_selector">
@@ -325,7 +340,6 @@ const MainContainer = () => {
 
       {/* Div holds Button to submit request and Quantity input area */}
       <div id = 'add_and_submit'>
-        <button id="submit_button" onClick={handleSubmit} >Generate Data</button>
         <label id='quantity_selector-label'> Quantity:
           <input ref={quantInput} id="quantity_selector" type="number" min='1' max = '100' defaultValue= '5'/>
         </label>
@@ -337,15 +351,15 @@ const MainContainer = () => {
 
       {/* Text area to display results */}
       <div id= 'text_box_and_copy'>
+        <button id="submit_button" onClick={handleSubmit} >Generate Data</button>
         <div id='form'>
           <select ref={displayType} name="displayType" id="displayType" onChange={selectDisplayType}>
             <option value="JSON">JSON</option>
-            <option value="Javascript">Javascript</option>
             <option value="CSV">CSV</option>
           </select>
         </div>
-        <textarea ref={textAreaInput} id="text_output" value={displayedDate}>
-        </textarea>
+        <pre ref={textAreaInput} id="text_output" contentEditable="true" spellCheck="false" >{displayedDate}
+        </pre>
         <button id='copy' onClick={handleCopy} ><img src='../copyIcon.svg' alt="copy to clipboard" /></button>
       </div>
     </div>
