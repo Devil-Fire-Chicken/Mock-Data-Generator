@@ -2,6 +2,8 @@
 
 A customizable mock data generator.
 
+Originally Created by Yeti Crabs Inc.
+
 ## Overview
 
 OpenForge is a highly customizable realistic mock data generator.
